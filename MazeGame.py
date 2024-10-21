@@ -4,7 +4,11 @@ import os
 
 os.system('cls')
 
-app=Ursina()
+app=Ursina(
+    title='',
+    borderless=False,
+    size=(1000,750)
+    )
 
 W=True #wall
 _=False #none
@@ -15,12 +19,12 @@ T='tp'
 class Player(FirstPersonController):
     def __init__(self):
         super().__init__(
-            model='cube', #lemon_1k.fbx\lemon_1k.fbx
-            #color=color.white,
+            model='cube',
+            color=color.black33,
             #position=(0,5,0),
             scale=1,
             collider='mesh',
-            texture=r'lemon_1k.fbx\textures\lemon_diff_1k.jpg',
+            texture='',
             speed=15,
             gravity=1,
             jump_height=5
@@ -59,11 +63,21 @@ class TP(Entity):
     def __init__(self,i,j):
         super().__init__(
             model='cube',
-            color=color.green,
+            color=color.yellow,
             position=(i*5,-1,j*5),
             scale=(5,25,5),
             collider='box'
         )
+
+        self.player=player
+
+        def abcd(self):
+            dis=(self.player.position-self.position).length()
+            if dis<4:
+                self.player.position=(-10,0,45)
+
+        def update(self):
+            abcd()
 
 def input(key):
     if key=='escape':
@@ -74,7 +88,7 @@ player=Player()
 
 MAP=[
     [W,W,W,W,W,W,W,W,W,P,W,W,W,W,W,W,W,W],
-    [W,W,W,W,W,W,W,W,_,_,W,_,W,W,W,W,W,W],
+    [W,W,W,W,W,W,W,W,T,_,W,_,W,W,W,W,W,W],
     [W,W,W,W,_,W,W,W,_,W,_,_,W,W,W,W,W,W],
     [W,W,W,_,_,W,_,_,_,W,W,_,W,W,W,_,W,W],
     [W,W,W,W,_,_,_,W,_,_,_,_,_,_,W,_,W,W],
