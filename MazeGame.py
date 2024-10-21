@@ -10,6 +10,7 @@ W=True #wall
 _=False #none
 P='player' #player
 E='exit' #exit
+T='tp'
 
 class Player(FirstPersonController):
     def __init__(self):
@@ -54,10 +55,14 @@ class Exit(Entity):
     def update(self):
         self.clear()
 
-class TP():
-    def __init__(self):
+class TP(Entity):
+    def __init__(self,i,j):
         super().__init__(
-            
+            model='cube',
+            color=color.green,
+            position=(i*5,-1,j*5),
+            scale=(5,25,5),
+            collider='box'
         )
 
 def input(key):
@@ -76,7 +81,7 @@ MAP=[
     [W,W,_,W,W,_,W,W,_,W,W,W,W,_,W,_,_,W],
     [W,_,_,_,_,_,_,_,_,_,_,W,W,_,W,_,W,W],
     [W,_,W,W,W,W,_,W,_,W,_,_,_,_,W,_,W,W],
-    [W,W,W,W,_,_,_,_,W,W,_,W,_,W,W,_,W,W],
+    [W,W,W,W,_,_,_,_,_,W,_,W,_,W,W,_,W,W],
     [W,W,W,_,_,W,W,_,W,W,W,W,_,_,_,_,_,W],
     [W,W,_,_,W,W,W,_,_,_,_,_,_,W,W,W,_,W],
     [W,W,_,W,W,W,W,W,_,W,W,W,W,_,W,W,_,W],
@@ -97,12 +102,15 @@ for i in range(len(MAP)):
             if MAP[i][j]=='exit':
                 exitdoor=Exit(i,j)
                 continue
+            if MAP[i][j]=='tp':
+                tp=TP(i,j)
+                continue
             wall=Entity(
                 model='cube',
                 color=color.green,
                 position=(i*5,-1,j*5),
                 scale=(5,25,5),
-                collider='box',
+                collider='box'
                 #texture=r'plastered_wall_1k.blend\textures\plastered_wall_diff_1k.jpg'
             )
 
