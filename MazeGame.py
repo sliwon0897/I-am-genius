@@ -53,7 +53,13 @@ class Exit(Entity):
 
     def update(self):
         self.clear()
-    
+
+class TP():
+    def __init__(self):
+        super().__init__(
+            
+        )
+
 def input(key):
     if key=='escape':
         app.quit()
@@ -93,11 +99,11 @@ for i in range(len(MAP)):
                 continue
             wall=Entity(
                 model='cube',
-                #color=color.black,
+                color=color.green,
                 position=(i*5,-1,j*5),
                 scale=(5,25,5),
                 collider='box',
-                texture=r'plastered_wall_1k.blend\textures\plastered_wall_diff_1k.jpg'
+                #texture=r'plastered_wall_1k.blend\textures\plastered_wall_diff_1k.jpg'
             )
 
 plane=Entity(
