@@ -14,7 +14,7 @@ W=True #wall
 _=False #none
 P='player' #player
 E='exit' #exit
-T='tp'
+A='tp'
 
 class Player(FirstPersonController):
     def __init__(self):
@@ -59,7 +59,7 @@ class Exit(Entity):
     def update(self):
         self.clear()
 
-class TP(Entity):
+class Warp(Entity):
     def __init__(self,i,j):
         super().__init__(
             model='cube',
@@ -71,13 +71,12 @@ class TP(Entity):
 
         self.player=player
 
-        def abcd(self):
-            dis=(self.player.position-self.position).length()
-            if dis<4:
-                self.player.position=(-10,0,45)
+    def tp(self):
+        if self.intersects(self.player):
+            self.player.position=(-10,0,45)
 
-        def update(self):
-            abcd()
+    def update(self):
+        self.tp()
 
 def input(key):
     if key=='escape':
@@ -88,7 +87,7 @@ player=Player()
 
 MAP=[
     [W,W,W,W,W,W,W,W,W,P,W,W,W,W,W,W,W,W],
-    [W,W,W,W,W,W,W,W,T,_,W,_,W,W,W,W,W,W],
+    [W,W,W,W,W,W,W,W,A,_,W,_,W,W,W,W,W,W],
     [W,W,W,W,_,W,W,W,_,W,_,_,W,W,W,W,W,W],
     [W,W,W,_,_,W,_,_,_,W,W,_,W,W,W,_,W,W],
     [W,W,W,W,_,_,_,W,_,_,_,_,_,_,W,_,W,W],
@@ -117,7 +116,7 @@ for i in range(len(MAP)):
                 exitdoor=Exit(i,j)
                 continue
             if MAP[i][j]=='tp':
-                tp=TP(i,j)
+                tp=Warp(i,j)
                 continue
             wall=Entity(
                 model='cube',
