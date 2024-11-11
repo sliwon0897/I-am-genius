@@ -54,15 +54,12 @@ class TP(Entity):
     
         self.player=player
         self.tp_pos=tp_pos
-
-    def warp(self):
+    
+    def update(self):
         global tp_max
         if self.intersects(self.player):
             tp_max-=1
             self.player.position=self.tp_pos[tp_max]
-    
-    def update(self):
-        self.warp()
 
 class Exit(Entity):
     def __init__(self,i,j):
@@ -106,6 +103,25 @@ def input(key):
         quit()
     if key=='f11':
         window.fullscreen=not window.fullscreen
+
+class Coin(Entity):
+    def __init__(self,i,j):
+        super().__init__(
+            model='circle',
+            color=color.red,
+            position=(i*5,-1,j*5),
+            scale=1,
+            collider='box',
+            double_sided=True
+        )
+
+        self.player=player
+
+    def update(self):
+        self.rotation_y+=9
+        self.color=color.random_color()
+        if self.intersects(self.player):
+            destroy(self)
 
 #EditorCamera()
 
@@ -196,11 +212,13 @@ for i in range(len(MAP)):
                 scale=(5,25,5),
                 collider='box'
             )
+        else:
+            coin=Coin(i,j)
             
 plane=Entity(
     model='Plane',
     color=color.dark_gray,
-    scale=(50000,1,500),
+    scale=(50000,1,50000),
     position=(0,-2,0),
     collider='mesh',
     #texture=''
@@ -209,11 +227,13 @@ plane=Entity(
 ceiling=Entity(
     model='Plane',
     color=color.black,
-    scale=(50000,1,500),
+    scale=(50000,1,50000),
     position=(0,25,0),
     collider='mesh',
     rotation=(0,0,180)
 )
+
+#Sky(color=color.red,texture='noise')
 
 pos_print=Text(
     origin=(0,0)
@@ -223,5 +243,6 @@ def update():
     global ppos
     ppos=[int(oo) for oo in (player.position.x,player.position.y,player.position.z)]
     pos_print.text=ppos
+
 
 app.run()
