@@ -233,7 +233,7 @@ ceiling=Entity(
     rotation=(0,0,180)
 )
 
-#Sky(color=color.red,texture='noise')
+asSky(color=color.red,texture='noise')
 
 pos_print=Text(
     origin=(0,0)
